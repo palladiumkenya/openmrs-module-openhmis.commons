@@ -22,6 +22,7 @@ import org.springframework.ui.ModelMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,13 +33,20 @@ public class HeaderController {
 	public static void render(ModelMap model, HttpServletRequest request) throws IOException {
 
 		HttpSession session = request.getSession();
-		Integer locationId = (Integer)session.getAttribute("emrContext.sessionLocationId");
+		// adding kenyaemr specific information
+		Integer locationId = Integer.parseInt(Context.getAdministrationService().
+		        getGlobalProperty("kenyaemr.defaultLocation"));
+
+		//Integer locationId = (Integer)session.getAttribute("emrContext.sessionLocationId");
 		model.addAttribute("sessionLocationId", locationId);
 		model.addAttribute("sessionLocationName", Context.getLocationService().getLocation(locationId).getName());
 
 		LocationTag locationTag = Context.getLocationService().getLocationTagByName("Login Location");
 
-		List<Location> loginLocations = Context.getLocationService().getLocationsByTag(locationTag);
+		List<Location> loginLocations = new ArrayList<>();
+		if (locationTag != null) {
+			loginLocations = Context.getLocationService().getLocationsByTag(locationTag);
+		}
 
 		model.addAttribute("loginLocations", loginLocations);
 		model.addAttribute("multipleLoginLocations", loginLocations.size() > 1);
