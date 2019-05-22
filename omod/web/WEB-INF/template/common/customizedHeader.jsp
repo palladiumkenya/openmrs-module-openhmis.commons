@@ -133,12 +133,27 @@
 <body id="body">
 <div>
 	<header>
-		<div class="logo">
+		<div class="logo" style="float: left; padding-right: 3px">
 			<a href="${pageContext.request.contextPath}/referenceapplication/home.page">
-				<img src="${pageContext.request.contextPath}/ms/uiframework/resource/uicommons/images/logo/openmrs-with-title-small.png">
+				<img src="${pageContext.request.contextPath}/ms/uiframework/resource/kenyaemr/images/keypop.png">
 			</a>
 		</div>
-		<openmrs:authentication>
+		<div style="float: left">
+			<span style="font-size: 24px; color:#000000;">KPS</span>
+			<span style="font-size: 10px; color: #7f7b72;">1.0.0, powered by OpenMRS</span>
+			<br/>
+
+
+		</div>
+		<div class="logo-moh">
+			<a href="${pageContext.request.contextPath}/referenceapplication/home.page">
+				<img src="${pageContext.request.contextPath}/ms/uiframework/resource/kenyaemr/images/logos/moh.png">
+			</a>
+		</div>
+		<div style="float: right; text-align: right; font-size: 13px; font-weight: bold; padding: 9px 5px 0 0; color: #7f7b72;">
+			Government of Kenya<br/>Ministry of Health
+		</div>
+		<%--<openmrs:authentication>
 			<c:if test="${authenticatedUser != null}">
 				<ul class="user-options">
 					<i class="glyphicon glyphicon-user small"></i>
@@ -179,7 +194,7 @@
 					</span></li>
 				</ul>
 			</c:if>
-		</openmrs:authentication>
+		</openmrs:authentication>--%>
 		<div id="session-location">
 			<ul class="select">
 				<c:forEach var="location" items="${loginLocations}">
@@ -198,6 +213,56 @@
 			</ul>
 		</div>
 	</header>
+	<div class="headers">
+		<openmrs:authentication>
+			<c:if test="${authenticatedUser != null}">
+				<%--<i class="headers glyphicon glyphicon-home small"></i>--%>
+				<ul class="headers user-options">
+					<li>
+						<a href="${pageContext.request.contextPath}/openhmis.inventory/inventoryLanding.page" style="text-decoration: none">
+							<img src="${pageContext.request.contextPath}/ms/uiframework/resource/kenyaui/images/toolbar/home.png">
+							&nbsp;&nbsp;Home</a>
+						</li>
+					<%--<i class="headers glyphicon glyphicon-user small"></i>--%>
+					<li><span id="userLoggedInAs" class="firstChild">
+                        <c:choose>
+							<c:when test="${authenticatedUser.username} == null">
+								<c:out value="${authenticatedUser.systemId}" />
+							</c:when>
+							<c:otherwise>
+								<c:out value="${authenticatedUser.username}" />
+							</c:otherwise>
+						</c:choose>
+
+					</span></li>
+					<%--<li class="headers change-location">
+						<a href="javascript:void(0);">
+							<i class="glyphicon glyphicon-map-marker small"></i>
+							<span data-bind="text: text"></span>
+							<c:if test="${multipleLoginLocations}">
+								<i class="glyphicon glyphicon-menu-down link"></i>
+							</c:if>
+						</a>
+					</li>--%>
+
+					<li style="float: right;padding-right: 5px"><span id="userLogout">
+						<a href='${pageContext.request.contextPath}/logout' style="text-decoration: none"><openmrs:message code="header.logout" /></a>
+					</span></li>
+					<%--<i class="glyphicon glyphicon-log-out small"></i>--%>
+				</ul>
+			</c:if>
+			<c:if test="${authenticatedUser == null}">
+				<ul class="headers user-options" style="float: right">
+					<li style="float: right"><span id="userLoggedOut" class="firstChild">
+						<openmrs:message code="header.logged.out"/>
+					</span></li>
+					<li style="float: right"><span id="userLogIn">
+						<a href='${pageContext.request.contextPath}/login.htm'><openmrs:message code="header.login"/></a>
+					</span></li>
+				</ul>
+			</c:if>
+		</openmrs:authentication>
+	</div>
 
 	<%-- This is where the My Patients popup used to be. I'm leaving this placeholder here
 		 as a reminder of where to put back an extension point when I've figured out what it should
